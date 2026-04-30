@@ -7,6 +7,23 @@
   pointer-events: none;
 }
 
+.navbar-transparent {
+  background: transparent;
+  transition: 0.3s;
+}
+
+.navbar-scrolled {
+  background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  transition: 0.3s;
+}
+
+.navbar-general {
+  background: #f8f9fa;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
