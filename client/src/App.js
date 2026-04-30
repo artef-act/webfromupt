@@ -7,7 +7,7 @@ import ProtectedRoute from "./access/ProtectedRoute";
 
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
+import Register from "./pages/user/Register";
 
 
 import Pendaftar from "./pages/user/Pendaftar";
@@ -32,7 +32,7 @@ function App() {
         <Route
           path="/user"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedRole="user">
               <User />
             </ProtectedRoute>
           }
@@ -44,7 +44,7 @@ function App() {
         <Route
           path="/admin"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedRole="admin">
               <Admin />
             </ProtectedRoute>
           }

@@ -1,96 +1,81 @@
-import React, { useState } from "react";
-import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
 
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [accessToken, setAccessToken] = useState(""); (database token)
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (username === "admin" && password === "123") {
+    try {
+      const response = await fetch("http://localhost:3001/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password })
+      });
 
-      localStorage.setItem("token", "admin-login");
+      const data = await response.json();
 
-      navigate("/admin/dashboard");
+      if (response.ok) {
+        localStorage.setItem("token", "user-token"); // or something, maybe use a real token later
+        localStorage.setItem("role", data.user.role);
+        localStorage.setItem("user", JSON.stringify(data.user));
 
-    } else if (username === "user" && password === "123") {
-        localStorage.setItem("token", "user-login");
-        navigate("/user/pendaftar");
-    } else {
-      alert("Username atau password salah");
+        if (data.user.role === "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          navigate("/user/dashboard");
+        }
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Server error");
     }
   };
 
   return (
-    <Container
-      fluid
-      className="d-flex align-items-center justify-content-center bg-light"
-      style={{ minHeight: "100vh" }}
-    >
-      <Row className="w-100">
-        <Col md={5} lg={4} className="mx-auto">
+    <div className="container mt-5">
 
-          <Card className="shadow border-0 rounded-4">
-            <Card.Body className="p-4">
+      <h1>Login</h1>
 
-              <div className="text-center mb-4">
-                <h2 className="fw-bold">Login</h2>
-                <p className="text-muted">
-                  Masuk ke dashboard admin
-                </p>
-              </div>
+      <form onSubmit={handleLogin}>
 
-              <Form onSubmit={handleLogin}>
+        <div className="mb-3">
+          <label>Email</label>
 
-                <Form.Group className="mb-3">
-                  <Form.Label>Username</Form.Label>
+          <input
+            type="text"
+            className="form-control"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
 
-                  <Form.Control
-                    type="text"
-                    placeholder="Masukkan username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                  />
-                </Form.Group>
+        <div className="mb-3">
+          <label>Password</label>
 
-                <Form.Group className="mb-4">
-                  <Form.Label>Password</Form.Label>
+          <input
+            type="password"
+            className="form-control"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
 
-                  <Form.Control
-                    type="password"
-                    placeholder="Masukkan password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </Form.Group>
+        <button className="btn btn-dark">
+          Login
+        </button>
 
-                <Button
-                  type="submit"
-                  variant="dark"
-                  className="w-100 rounded-3"
-                >
-                  Login
-                </Button>
+      </form>
 
-              </Form>
-
-              <div className="text-center mt-4 text-muted small">
-                demo login:
-                <br />
-                admin / 123
-              </div>
-
-            </Card.Body>
-          </Card>
-
-        </Col>
-      </Row>
-    </Container>
+    </div>
   );
 }

@@ -1,7 +1,9 @@
 import React from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 
+
 export default function Landing() {
+    const token = localStorage.getItem("token");
     return (
         
         <Container fluid className="d-flex align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
@@ -12,7 +14,7 @@ export default function Landing() {
                         This is a simple landing page built with React and Bootstrap.
                     </p>
                     <Button variant="primary" size="lg" className="me-3">
-                        Get Started
+                        {!token ? "Ayo Daftar" : "Lihat Pemberitahuan"} 
                     </Button>
                     <Button variant="outline-secondary" size="lg">
                         Learn More

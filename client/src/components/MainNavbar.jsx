@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function MainNavbar() {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const [token, setToken] = useState(localStorage.getItem("token"));
+
+  const handleLogout = () => {
+    localStorage.clear();
+    setToken(null);
+    navigate("/", { replace: true });
+    window.location.reload();
+  };
 
   const [scrolled, setScrolled] = useState(false);
 
@@ -42,8 +52,16 @@ function MainNavbar() {
 
         <Nav className="ms-auto">
           <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="/login">Login</Nav.Link>
-          <Nav.Link href="/register">Register</Nav.Link>
+          {!token ? (
+            <>
+              <Nav.Link href="/login">Login</Nav.Link>
+              <Nav.Link href="/register">Register</Nav.Link>
+            </>
+          ) : (
+            <Nav.Link href="#" onClick={handleLogout}>
+              Logout
+            </Nav.Link>
+          )}
         </Nav>
       </Container>
     </Navbar>
