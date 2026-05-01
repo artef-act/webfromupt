@@ -1,6 +1,8 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const cors = require("cors");
+const multer = require("multer");
+const path = require("path");
 
 const db = require("./db");
 
@@ -9,15 +11,49 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.post("/register", async (req, res) => {
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage: storage });
+
+// Ensure uploads directory exists
+const fs = require('fs');
+if (!fs.existsSync('uploads')) {
+  fs.mkdirSync('uploads');
+}
+
+app.post("/register", upload.fields([
+  { name: 'foto', maxCount: 1 },
+  { name: 'transkrip', maxCount: 1 },
+  { name: 'formulir', maxCount: 1 }
+]), async (req, res) => {
 
   try {
-
     const {
       nama,
-      email,
+      email: rawEmail,
       password
     } = req.body;
+
+    const email = rawEmail || req.body.nim;
+    const nim = req.body.nim || email;
+
+    if (!email || !nim) {
+      return res.status(400).json({ message: "NIM / email tidak valid" });
+    }
+
+    if (email.length > 11) {
+      return res.status(400).json({
+        message: "Email terlalu panjang untuk kolom users.email; gunakan NIM atau perbaiki schema database"
+      });
+    }
 
     const [existing] = await db.query(
       "SELECT * FROM users WHERE email = ?",
@@ -37,7 +73,23 @@ app.post("/register", async (req, res) => {
       (nama, email, password, role)
       VALUES (?, ?, ?, ?)
       `,
-      [nama, email, hashedPassword, "admin"]
+      [nama, email, hashedPassword, "pendaftar"]
+    );
+      await db.query(
+        `
+        INSERT INTO pendaftar
+        (nim, semester, kelas, alasan, foto_pas, transkrip, formulir)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        `,
+      [
+        nim,
+        req.body.semester,
+        req.body.kelas,
+        req.body.alasan,
+        req.files['foto'] ? req.files['foto'][0].filename : null,
+        req.files['transkrip'] ? req.files['transkrip'][0].filename : null,
+        req.files['formulir'] ? req.files['formulir'][0].filename : null
+      ]
     );
 
     res.json({
@@ -95,6 +147,7 @@ app.post("/login", async (req, res) => {
     res.status(500).json({
       message: "Server error"
     });
+    console.log("User logged in:", user);
   }
 });
 

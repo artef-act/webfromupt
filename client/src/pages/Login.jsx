@@ -29,7 +29,7 @@ export default function Login() {
         if (data.user.role === "admin") {
           navigate("/admin/dashboard");
         } else {
-          navigate("/user/dashboard");
+          navigate("/user/pendaftar");
         }
       } else {
         alert(data.message);
@@ -44,8 +44,8 @@ export default function Login() {
     <section
       className="min-vh-100 d-flex align-items-center"
       style={{
-        background:
-          "linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)",
+        paddingTop: "40px",
+        background: "linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)",
       }}
     >
       <div className="container">
@@ -138,6 +138,15 @@ export default function Login() {
                     </button>
                   </div>
                 </form>
+
+                <div className="text-center mt-4 text-secondary small" >
+                  <p>
+                    Belum punya akun?{' '}
+                    <a href="/register" className="text-decoration-underline">
+                      Daftar di sini
+                    </a>
+                  </p>
+                </div>
 
                 <div className="text-center mt-4 text-secondary small">
                   © 2026 UPT Komputer

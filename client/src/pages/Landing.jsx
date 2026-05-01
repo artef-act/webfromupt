@@ -3,28 +3,13 @@ import React from 'react';
 
 
 export default function Landing() {
-    const token = localStorage.getItem("token"); 
+    const user = JSON.parse(localStorage.getItem("user"));
+    const role = localStorage.getItem("role");
+    console.log("User role:", role, localStorage);
     return (
-        
-        // <Container fluid className="d-flex align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
-        //     <Row className="w-100">
-        //         <Col md={8} lg={6} className="mx-auto text-center">
-        //             <h1 className="display-4 mb-4">Welcome to Our Site</h1>
-        //             <p className="lead mb-4">
-        //                 This is a simple landing page built with React and Bootstrap.
-        //             </p>
-        //             <Button variant="primary" size="lg" className="me-3">
-                        
-        //             </Button>
-        //             <Button variant="outline-secondary" size="lg">
-        //                 Learn More
-        //             </Button>
-        //         </Col>
-        //     </Row>
-        // </Container>
         <>
       {/* HERO */}
-      <section className="min-vh-100 d-flex align-items-center bg-light border-bottom">
+      <section id='home' className="min-vh-100 d-flex align-items-center bg-light border-bottom">
         <div className="container py-5">
           <div className="row align-items-center g-5">
             
@@ -35,18 +20,32 @@ export default function Landing() {
               </span>
 
               <h1 className="fw-bold display-4 mb-3">
-                Sistem Informasi <br />
-                UPT Komputer
+                {!user
+                  ? "Selamat Datang di UPT Komputer!"
+                  : role === "admin"
+                  ? `Selamat Datang, Admin ${user.nama}!`
+                  : `Selamat Datang, ${user.nama}!`}
               </h1>
 
               <p className="text-secondary fs-5 mb-4">
-                Tempat pengelolaan layanan komputer, informasi kegiatan,
-                dokumentasi, dan pelayanan digital kampus.
+                {!user
+                  ? "Daftar sekarang untuk mendapatkan informasi terbaru seputar layanan dan kegiatan UPT Komputer!"
+                  : role === "admin"
+                  ? "Lihat kegiatan terbaru dan kelola informasi dengan mudah."
+                  : "Dapatkan pemberitahuan terbaru tentang layanan dan kegiatan UPT Komputer."}
               </p>
 
               <div className="d-flex gap-3 justify-content-center justify-content-lg-start">
-                <button className="btn btn-primary px-4 py-2 rounded-3">
-                  {!token ? "Ayo Daftar" : "Lihat Pemberitahuan"}
+                <button className="btn btn-primary px-4 py-2 rounded-3" onClick={() => {
+                  if (!role) {
+                    window.location.href = "/register";
+                  } else if (role === "admin") {
+                    window.location.href = "/admin/dashboard";
+                  } else {
+                    window.location.href = "/user/pendaftar";
+                   }
+                }}>
+                  {!role ? "Ayo Daftar" : role === "admin" ? "Lihat Kegiatan" : "Lihat Pemberitahuan"}
                 </button>
 
                 <a href="#pengenalan" className="btn btn-outline-dark px-4 py-2 rounded-3">

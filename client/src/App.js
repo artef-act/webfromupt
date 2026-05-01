@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./App.css";
 
 import Public from "./access/Public";
 import Admin from "./access/Admin";
@@ -11,8 +12,8 @@ import Register from "./pages/user/Register";
 
 
 import Pendaftar from "./pages/user/Pendaftar";
-
 import Dashboard from "./pages/admin/Dashboard";
+import AfterRegister from "./pages/user/AfterRegister";
 
 
 
@@ -26,13 +27,14 @@ function App() {
           <Route index element={<Landing />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="after-register" element={<AfterRegister />} />
         </Route>
 
         {/* USER */}
         <Route
           path="/user"
           element={
-            <ProtectedRoute allowedRole="user">
+            <ProtectedRoute allowedRole="pendaftar">
               <User />
             </ProtectedRoute>
           }

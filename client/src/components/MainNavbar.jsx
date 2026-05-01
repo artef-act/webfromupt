@@ -43,7 +43,7 @@ function MainNavbar() {
       <Navbar
         expand="lg"
         fixed="top"
-        className={`${navbarClass} py-3`}
+        className={`${navbarClass} py-2`}
       >
         <Container>
 
@@ -76,7 +76,7 @@ function MainNavbar() {
             {/* MENU */}
             <Nav className="ms-auto align-items-lg-center gap-lg-2">
 
-              <Nav.Link href="/" className="fw-semibold">
+              <Nav.Link href="/#home" className="fw-semibold">
                 Home
               </Nav.Link>
 
@@ -94,15 +94,15 @@ function MainNavbar() {
 
               {!token ? (
                 <>
-                  <Nav.Link href="/login" className="fw-semibold">
-                    Login
+                  <Nav.Link href="/register" className="fw-semibold">
+                    Register
                   </Nav.Link>
 
                   <Button
-                    href="/register"
+                    href="/login"
                     className="rounded-pill px-4 fw-semibold"
                   >
-                    Register
+                    Login
                   </Button>
                 </>
               ) : (

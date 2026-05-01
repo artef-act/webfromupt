@@ -1,0 +1,103 @@
+/* Global navbar styles for a minimalist, flexible layout */
+
+.navbar-transparent {
+	background: transparent;
+	transition: background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.navbar-transparent .nav-link,
+.navbar-transparent .navbar-brand {
+	color: white !important;
+}
+
+.navbar-scrolled,
+.navbar-general {
+	background: rgba(255, 255, 255, 0.95);
+	backdrop-filter: blur(12px);
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+	transition: background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.navbar-general {
+	background: white;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.navbar-scrolled .nav-link,
+.navbar-scrolled .nav-link:hover,
+.navbar-general .nav-link,
+.navbar-general .nav-link:hover,
+.navbar-scrolled .navbar-brand,
+.navbar-general .navbar-brand {
+	color: #111827 !important;
+}
+
+.navbar-brand-icon {
+	width: 42px;
+	height: 42px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 0.75rem;
+	background: linear-gradient(135deg, #2563eb, #60a5fa);
+	color: white;
+	font-weight: 700;
+}
+
+.navbar-link {
+	position: relative;
+	transition: color 0.3s ease;
+}
+
+.navbar-link::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 0%;
+	height: 2px;
+	background: #2563eb;
+	transition: width 0.3s ease;
+}
+
+.navbar-link:hover::after {
+	width: 100%;
+}
+
+.navbar-link:hover {
+	color: #2563eb !important;
+}
+
+.navbar-toggler {
+	border: none;
+	box-shadow: none !important;
+}
+
+@media (max-width: 991.98px) {
+	.navbar-collapse {
+		background: rgba(255, 255, 255, 0.98);
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+		border-radius: 0 0 1rem 1rem;
+		padding: 1rem 1.25rem 1.25rem;
+		width: 100%;
+	}
+
+	.navbar-collapse .navbar-nav {
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+		margin-left: 0 !important;
+		gap: 0.75rem;
+	}
+
+	.navbar-collapse .nav-link,
+	.navbar-collapse .btn {
+		width: 100%;
+		justify-content: flex-start;
+		text-align: left;
+	}
+
+	.navbar-collapse .btn {
+		margin-top: 0.5rem;
+	}
+}
