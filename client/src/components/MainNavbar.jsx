@@ -84,11 +84,11 @@ function MainNavbar() {
                 About
               </Nav.Link>
 
-              <Nav.Link href="/activity" className="fw-semibold">
+              <Nav.Link href="/#kegiatan" className="fw-semibold">
                 Activity
               </Nav.Link>
 
-              <Nav.Link href="/gallery" className="fw-semibold">
+              <Nav.Link href="/#galeri" className="fw-semibold">
                 Gallery
               </Nav.Link>
 

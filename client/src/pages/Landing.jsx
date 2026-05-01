@@ -112,7 +112,7 @@ export default function Landing() {
       </section>
 
       {/* KEGIATAN */}
-      <section className="py-5 bg-light">
+      <section id="kegiatan" className="py-5 bg-light">
         <div className="container">
           <div className="text-center mb-5">
             <h2 className="fw-bold">Kegiatan</h2>
@@ -154,7 +154,7 @@ export default function Landing() {
       </section>
 
       {/* FOTO RANDOM */}
-      <section className="py-5">
+      <section id="galeri" className="py-5">
         <div className="container">
           <div className="text-center mb-5">
             <h2 className="fw-bold">Galeri</h2>
