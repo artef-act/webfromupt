@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 export default function IdentityCard({
-  data=,
+  data,
   showCredential = false,
   showStatus = false,
 }) {
