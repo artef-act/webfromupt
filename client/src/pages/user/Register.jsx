@@ -59,7 +59,7 @@ export default function Register() {
 
       formData.append("nama", nama);
       formData.append("email", nim); // NIM as email for server
-      formData.append("password", "defaultpassword"); // Add default password
+      formData.append("password", nim); // Add default password
 
       formData.append("nim", nim);
       formData.append("semester", semester);

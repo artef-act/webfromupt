@@ -1,140 +1,177 @@
 import React, { useState } from "react";
 
 export default function IdentityCard({
-  data,
+  data=,
   showCredential = false,
   showStatus = false,
 }) {
 
   const [previewFile, setPreviewFile] = useState(null);
-
+  const user = data;
+  const BASE_URL = "http://localhost:3001";
   return (
     <>
-      <div className="card border-0 shadow rounded-4 h-100">
+      <div className="card border-0 shadow-sm rounded-4 compact-card">
 
-        {/* HEADER */}
-        <div className="card-header bg-primary text-white py-3 rounded-top-4">
-          <h5 className="mb-0 fw-bold">
-            Identitas Pendaftar
-          </h5>
-        </div>
+        <div className="card-body p-4">
 
-        {/* BODY */}
-        <div className="card-body">
+          <div className="row g-4 align-items-start">
 
-          {/* FOTO */}
-          <div className="text-center mb-4">
-            <img
-              src={data.foto}
-              alt="Foto"
-              className="identity-photo"
-              onClick={() =>
-                setPreviewFile({
-                  type: "image",
-                  src: data.foto,
-                })
-              }
-            />
-          </div>
+            {/* LEFT */}
+            <div className="col-lg-8">
 
-          {/* DATA */}
-          <div className="identity-list">
+              <div className="identity-grid">
 
-            <div className="identity-item">
-              <span>Nama</span>
-              <strong>{data.nama}</strong>
-            </div>
-
-            <div className="identity-item">
-              <span>NIM</span>
-              <strong>{data.nim}</strong>
-            </div>
-
-            <div className="identity-item">
-              <span>Semester</span>
-              <strong>{data.semester}</strong>
-            </div>
-
-            <div className="identity-item">
-              <span>Kelas</span>
-              <strong>{data.kelas}</strong>
-            </div>
-
-            <div className="identity-item">
-              <span>Alasan</span>
-              <strong>{data.alasan}</strong>
-            </div>
-
-          </div>
-
-          {/* FILE */}
-          <div className="mt-4">
-
-            <button
-              className="btn btn-outline-primary w-100 mb-2"
-              onClick={() =>
-                setPreviewFile({
-                  type: "pdf",
-                  src: data.transkrip,
-                })
-              }
-            >
-              📄 Preview Transkrip
-            </button>
-
-            <button
-              className="btn btn-outline-primary w-100"
-              onClick={() =>
-                setPreviewFile({
-                  type: "pdf",
-                  src: data.formulir,
-                })
-              }
-            >
-              📄 Preview Formulir
-            </button>
-          </div>
-
-          {/* EMAIL & PASSWORD */}
-          {showCredential && (
-            <div className="mt-4 p-3 rounded-4 bg-light">
-
-              <div className="mb-2">
-                <span className="text-secondary small">
-                  Email
-                </span>
-
-                <div className="fw-semibold">
-                  {data.email}
+                <div className="identity-row">
+                  <span>Nama</span>
+                  <strong>{user.nama}</strong>
                 </div>
-              </div>
 
-              <div>
-                <span className="text-secondary small">
-                  Password
-                </span>
-
-                <div className="fw-semibold">
-                  {data.password}
+                <div className="identity-row">
+                  <span>NIM</span>
+                  <strong>{user.nim}</strong>
                 </div>
+
+                <div className="identity-row">
+                  <span>Semester</span>
+                  <strong>{user.semester}</strong>
+                </div>
+
+                <div className="identity-row">
+                  <span>Kelas</span>
+                  <strong>{user.kelas}</strong>
+                </div>
+
+              </div>
+
+              {/* ALASAN */}
+              <div className="mt-4">
+
+                <div className="small text-secondary mb-2">
+                  Alasan
+                </div>
+
+                <div className="alasan-box">
+                  {user.alasan}
+                </div>
+
+              </div>
+
+              {/* CREDENTIAL */}
+              {showCredential && (
+                <div className="credential-box mt-4">
+
+                  <div className="mb-3">
+                    <div className="small text-secondary">
+                      Email
+                    </div>
+
+                    <div className="fw-semibold">
+                      {user.email}
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="small text-secondary">
+                      Password
+                    </div>
+
+                    <div className="fw-semibold">
+                      {user.password}
+                    </div>
+                  </div>
+
+                </div>
+              )}
+
+              {/* STATUS */}
+              {showStatus && (
+                <div className="mt-4">
+                  <span className="badge bg-success px-3 py-2 rounded-pill">
+                    {user.status}
+                  </span>
+                </div>
+              )}
+
+            </div>
+
+            {/* RIGHT */}
+            <div className="col-lg-4">
+
+              <div className="d-flex flex-column gap-3">
+
+                {/* FOTO */}
+                <div className="file-card">
+
+                  <div className="small text-secondary mb-2">
+                    Foto
+                  </div>
+
+                  <img
+                    src="`${BASE_URL}/user.foto`"
+                    alt="Foto"
+                    className="mini-photo"
+                    onClick={() =>
+                      setPreviewFile({
+                        type: "image",
+                        src: user.foto,
+                      })
+                    }
+                  />
+                </div>
+
+                {/* FORMULIR */}
+                <div className="file-card">
+
+                  <div className="small text-secondary mb-2">
+                    Formulir
+                  </div>
+
+                  <button
+                    className="btn btn-outline-primary btn-sm rounded-pill w-100"
+                    onClick={() =>
+                      setPreviewFile({
+                        type: "pdf",
+                        src: user.formulir,
+                      })
+                    }
+                  >
+                    Preview PDF
+                  </button>
+
+                </div>
+
+                {/* TRANSKRIP */}
+                <div className="file-card">
+
+                  <div className="small text-secondary mb-2">
+                    Transkrip
+                  </div>
+
+                  <button
+                    className="btn btn-outline-primary btn-sm rounded-pill w-100"
+                    onClick={() =>
+                      setPreviewFile({
+                        type: "pdf",
+                        src: user.transkrip,
+                      })
+                    }
+                  >
+                    Preview PDF
+                  </button>
+
+                </div>
+
               </div>
 
             </div>
-          )}
 
-          {/* STATUS */}
-          {showStatus && (
-            <div className="mt-4">
-              <div className="alert alert-success rounded-4 mb-0">
-                Status: {data.status}
-              </div>
-            </div>
-          )}
+          </div>
 
         </div>
       </div>
 
-      {/* PREVIEW MODAL */}
+      {/* PREVIEW */}
       {previewFile && (
         <div className="preview-overlay">
 
@@ -160,42 +197,71 @@ export default function IdentityCard({
                 className="preview-pdf"
               />
             )}
+
           </div>
         </div>
       )}
 
       <style>
         {`
-          .identity-photo {
-            width: 140px;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 20px;
-            cursor: pointer;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+          .compact-card {
+            background: white;
           }
 
-          .identity-list {
+          .identity-grid {
             display: flex;
             flex-direction: column;
             gap: 14px;
           }
 
-          .identity-item {
+          .identity-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding-bottom: 10px;
             border-bottom: 1px solid #e5e7eb;
           }
 
-          .identity-item span {
-            display: block;
-            font-size: 0.85rem;
+          .identity-row span {
             color: #64748b;
+            font-size: 0.9rem;
+          }
+
+          .alasan-box {
+            background: #f8fafc;
+            border-radius: 18px;
+            padding: 16px;
+            min-height: 100px;
+            line-height: 1.7;
+          }
+
+          .credential-box {
+            background: #eff6ff;
+            border-radius: 18px;
+            padding: 18px;
+          }
+
+          .file-card {
+            background: #f8fafc;
+            border-radius: 18px;
+            padding: 14px;
+            text-align: center;
+          }
+
+          .mini-photo {
+            width: 100px;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 14px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
           }
 
           .preview-overlay {
             position: fixed;
             inset: 0;
             background: rgba(15,23,42,0.75);
+            backdrop-filter: blur(4px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -235,6 +301,20 @@ export default function IdentityCard({
             background: rgba(0,0,0,0.7);
             color: white;
             z-index: 10;
+          }
+
+          @media (max-width: 991px) {
+
+            .identity-row {
+              flex-direction: column;
+              align-items: start;
+              gap: 4px;
+            }
+
+            .mini-photo {
+              width: 90px;
+              height: 120px;
+            }
           }
         `}
       </style>

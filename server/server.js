@@ -115,7 +115,7 @@ app.post("/login", async (req, res) => {
     } = req.body;
 
     const [users] = await db.query(
-      "SELECT * FROM users WHERE email = ?",
+      "SELECT users.*, pendaftar.nim, pendaftar.semester, pendaftar.kelas, pendaftar.alasan, pendaftar.foto_pas, pendaftar.transkrip, pendaftar.formulir, pendaftar.status FROM users LEFT JOIN pendaftar ON users.email = pendaftar.nim WHERE users.email = ?",
       [email]
     );
     if (users.length === 0) {
@@ -135,10 +135,17 @@ app.post("/login", async (req, res) => {
     res.json({
       message: "Login berhasil",
       user: {
-        id: user.id,
         nama: user.nama,
         email: user.email,
-        role: user.role
+        role: user.role,
+        nim: user.nim,
+        semester: user.semester,
+        kelas: user.kelas,
+        alasan: user.alasan,
+        foto: user.foto_pas,
+        transkrip: user.transkrip,
+        formulir: user.formulir,
+        status: user.status
       }
     });
 
@@ -147,7 +154,6 @@ app.post("/login", async (req, res) => {
     res.status(500).json({
       message: "Server error"
     });
-    console.log("User logged in:", user);
   }
 });
 
